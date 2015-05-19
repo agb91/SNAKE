@@ -14,42 +14,55 @@
             //variabili
             //IL SERPENTE È RAPRESENTATO DA UNA TESTA (COO X E Y) E 2 ARRAY DI PUNTI (CON COO X E Y)
             var contRow = 0;
-            var testaX = 5;
+            var testaX = 9;
             var testaY = 1;
             var vettoreX = [];
             var vettoreY = [];
-            var dir = 1; //1=dx, 2 = giu, 3 = sx, 4=su
+            var dir = 1; //1=dx, 2 = giu, 3 = sx 4=su
             var velocita = 500; // ogni quanti milliseconti avanza
             var ciclo = 0;
+            var vivo = true; //sono in gioco?
+            var punteggio=0;
+            var dimensione = 64;
             
             // inizializzo il serpente di partenza
             vettoreX[0]=testaX;
             vettoreY[0]=testaY;
-            vettoreX[1]=4;
-            vettoreX[2]=3;
-            vettoreX[3]=2;
-            vettoreX[4]=1;
+            
+            vettoreX[1]=8;
+            vettoreX[2]=7;
+            vettoreX[3]=6;
+            vettoreX[4]=5;
+            vettoreX[5]=4;
+            vettoreX[6]=3;
+            vettoreX[7]=2;
+            
             vettoreY[1]=1;
             vettoreY[2]=1;
             vettoreY[3]=1;
             vettoreY[4]=1;
-           
+            vettoreY[5]=1;
+            vettoreY[6]=1;
+            vettoreY[7]=1;
             
-            function HtmlTable(id, cssInline) {
+            function HtmlTable(id, cssInline) { // funzione che crea l'intestazione di una tabella
+                //simula la forma di una classe per poter essere usata come tale (fatto irrilevante sul resto del programma)
                 //constructor
                 this.id = id;
                 this.cssInline = cssInline;
                 this.htmlOutput = "<table cellspacing=\"0\"  id=\"" + this.id + "\" style=\"" + this.cssInline + "\">";
+                //cellspacing 0 per non avere contorni e style che regola la larghezza della tabella
             }
             
-            function colore(x,y,color)
+            function colore(x,y,color) // coloro del colore detto la cella detta, il conto delle celle parte da 0 non da 1
             {
-                var ide = y+"-"+x;
+                var ide = x+"-"+y; 
                 attuale=document.getElementById(ide);
                 attuale.style.backgroundColor  = color;
             }
             
-            function disegnaSerpente()
+            function disegnaSerpente()  // mi occupo di disegnare il serpende allo stato attuale
+            //non devi occuparti di altro per quanto riguarda il disegno
             {
                 for(var i=0; i<vettoreX.length; i++)
                 {
@@ -57,51 +70,82 @@
                 }
             }
             
-           Array.prototype.removePos = function(pos) {
-                this.splice(pos,1);
-            };
             
-            
-            function avanza()
+            function verifica(tx,ty)  //falso se  vita vero se morte
+            // verifica se la nuova posizione della testa mi tiene in gioco o mi uccide (se ho colpito un ostacolo)
             {
+                var risp = false;
+                var ide = tx+"-"+ty; 
+                attuale=document.getElementById(ide);
 
+                if(attuale.style.backgroundColor=="black")
+                {
+                   risp=true; 
+                }
+                return risp;
+            }
+            
+            
+            function avanza() // richiamato ogni tot millisecondi dall'html
+            // porta avanti il serpende di 1 nella direzione attule, verifica se la nuova posizione implica la morte
+            //e disegna il nuovo serpente
+            {
+              if(vivo) //se sono in gioco
+              {  
                 if(dir==1)
                 {
-                testaX++;
+                    testaX++;
+                    testaX=testaX%dimensione;
                 }                
                 if(dir==2)
                 {
-                testaY++;
+                    testaY++;
+                    testaY=testaY%dimensione;
                 }
                 if(dir==3)
                 {
-                testaX--;
+                    testaX--;
+                    if(testaX<0)
+                    {
+                        testaX=dimensione-1;
+                    }
                 }
                 if(dir==4)
                 {
-                testaY--;
+                    testaY--;
+                    if(testaY<0)
+                    {
+                        testaY=dimensione-1;
+                    }
                 } 
-                  var ultima = vettoreX.length-1;
 
-                for(var i=ultima; i>0; i-- )
+                if(verifica(testaX,testaY)) // caso morte
+                {
+                    alert("morte");
+                    vivo=false;
+                }
+                  var ultima = vettoreX.length-1; 
+
+                for(var i=ultima; i>0; i-- ) // ogni quadratino del serpente avanza nella posizione del precedente
                 {
                     vettoreX[i]=vettoreX[i-1];
                     vettoreY[i]=vettoreY[i-1];
                 }
                 vettoreX[0]=testaX;
                 vettoreY[0]=testaY;
-               // alert(vettoreX);
+               // l'ultimo viene calcellato 
                 colore(vettoreX[ultima],vettoreY[ultima],"Red");
-                vettoreX[ultima]=999;
+                vettoreX[ultima]=999; //99 sta per cancellato
                 vettoreY[ultima]=999;
 
            
-                disegnaSerpente();
+                disegnaSerpente(); // disegno il nuovo serpente
+              }  
             }
             
-            function key(e)
-            {
-                var kc = e.keyCode;
+            function key(e) //gestisco la pressione dei tasti comando identificato da un numero (mi interesso delle frecce)
+            {// gestisce casi di assurdo direzionale (no inversioni a u...)
+                var kc = e.keyCode; 
                 if(kc == 37)
                 {
                     if((dir==2)||(dir==4))
@@ -131,22 +175,24 @@
                     }
                 }
             }
-                        
-            //public method for adding a row
-            HtmlTable.prototype.AddRow = function(arrCols) {
-                contRow++;
+
+            HtmlTable.prototype.AddRow = function(arrCols) { // aggiunge riga alla tabella in modo dinamico
+                //arrcols è un array di 64 che indica quante colonne ci sono (quanto è lunga ogni riga)
+                
                 
                 this.htmlOutput += "<tr>";              
                 for(var i = 0; i < arrCols.length; i++) 
                 {
-                    var c = i+1;
-                    var id=contRow+"-"+c;
+                    var c = i;
+                    var id = c+"-"+contRow;
                    this.htmlOutput += "<td id=\""+ id+"\" style=\"background-color:red\" height=\"6\">" + arrCols[i] + "</td>";
+                   //gestisce altezza e colore di base
                 }
+                contRow++;
                 this.htmlOutput += "</tr>";                
-            }
+            } //il tutto viene scritto con this.htmloutput
             
-            //public method for getting the resulting html
+            //necessario per usare Html table come classe (poco rilevante)
             HtmlTable.prototype.GetHtml = function() {
                 return this.htmlOutput + "</table>";
             }
@@ -154,15 +200,15 @@
             //*** how to use the class ***
             
             //creates an instance of the class (object)
-            var myTable = new HtmlTable("test-table-id", "width: 50%");
+            var myTable = new HtmlTable("test-table-id", "width: 50%"); //creo la tabella con un id e una larghezza
             
             //calls the method passing an array as argument
             riga = new Array();
-            for(var i=0; i<64; i++)
+            for(var i=0; i<dimensione; i++)
             {
                 riga[i]="";
             }
-            for(var i=0;i<64;i++)
+            for(var i=0;i<dimensione;i++)
             {
             myTable.AddRow(riga);
             }
@@ -170,7 +216,7 @@
             //injects the resulting html into the div
             document.getElementById('div-table').innerHTML = myTable.GetHtml();
 
-                    // Add keyboard listener. 
+            // i seguenti comandi collegano la pressione di tasti a una funzione
             window.addEventListener("keydown", key, false);
             window.addEventListener("keypress", key, false);
             window.addEventListener("keyup", key, false);
