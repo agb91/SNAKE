@@ -1,0 +1,89 @@
+<?php
+// AL 50% È UN PROGETTO GIÀ FATTO DA BIANCHINI RIUSATO
+class talkToData {
+	private static $nomeHost   = "localhost";
+   	private static $nomeUtente = "root";        // per progetti non didattici, mai
+   	private static $password   = "";            // accedere come root senza password
+   	private static $nomeDb     = "CLASSIFICA1";  //NOME DEL DB
+	 
+	// crea il codice HTML da scrivere nei risultati 
+	public static function getClass() { //ESTRAE DAL DATABASE LA CLASSIFICA E LA RESTITUISCE CON ECHO
+            // PER ORA USA ELENCO PUNTATO
+	   	$risultatoHTML = "\n<ul>\n";
+		try {	
+                        //PRIMA CREA CONNESSIONE E GESTISCE EVENTUALI ERRORI
+			$connessione = @mysql_connect(self::$nomeHost, self::$nomeUtente, self::$password);
+				// la @ all'inizio della funzione nasconde eventuali warning all'utente
+			if (!$connessione)
+			throw new Exception("Impossibile connettersi all'archivio: "); 
+        		$database = mysql_select_db(self::$nomeDb);
+				if (!$database)
+			throw new Exception("Impossibile connettersi alla classifica: ");
+        		$query = "SELECT NOME,PUNTEGGIO FROM CLASSIFICA1 ORDER BY PUNTEGGIO DESC ";
+                        // LA QUERY PRELEVA NOME E PUNTEGGIO
+        		$risultato = mysql_query($query);
+				while ($riga = mysql_fetch_array($risultato)) {
+           			$risultatoHTML = $risultatoHTML . "<li>" . $riga["PUNTEGGIO"] . "   " . $riga["NOME"] .  "\n";
+        		}	
+			}	
+		catch (Exception $e) {
+        	echo "<p>" . $e->getMessage() . mysql_error() . "</p>";
+	    }
+		$risultatoHTML = $risultatoHTML . "</ul>\n";
+		@mysql_close($connessione); // SEMPRE CHIUDERE IL DB APERTO
+		return $risultatoHTML;
+	}
+	 
+	public static function salvaRecord($nome, $punteggio) { // VALUTA SE L'UTENTE ESISTE O È NUOVO
+            
+            
+            //CONNESSIONE E GESTINE ERRORI DI CONNESSIONE:
+            	$connessione = @mysql_connect(self::$nomeHost, self::$nomeUtente, self::$password);
+		// la @ all'inizio della funzione nasconde eventuali warning all'utente
+		if (!$connessione)
+		throw new Exception("Impossibile connettersi all'archivio: "); 
+        	$database = mysql_select_db(self::$nomeDb);
+		if (!$database)
+		throw new Exception("Impossibile connettersi alla classifica: ");
+                
+             //query1 preventiva per capire se il nome è nuovo oppure c'è già  
+                $risultatoHTML = "";
+                $query1= sprintf("SELECT NOME FROM CLASSIFICA1 WHERE NOME=%s",talkToData::filtraCodiceSQL($nome));  
+                $risultato = mysql_query($query1);
+		while ($riga = mysql_fetch_array($risultato)) {
+           	$risultatoHTML = $risultatoHTML . $riga["NOME"] .  "\n";
+        	}
+                        
+                if($risultatoHTML!="") // SE NON È VUOTO, QUINDI ESISTE GIÀ
+            	{	
+                    // FACCIO UN UPDATE
+          	    $query = sprintf("UPDATE CLASSIFICA1 SET PUNTEGGIO=%s WHERE NOME=%s",
+		    talkToData::filtraCodiceSQL($punteggio), talkToData::filtraCodiceSQL($nome)); 			
+        	    if (!mysql_query($query))
+		    throw new Exception("Utente non registrato: "); 
+		}
+		else // SE INVECE NON È TROVATO QUINDI È NUOVO
+                { //FACCIO UN INSERIMENTO
+                    $query= sprintf("INSERT INTO CLASSIFICA1 (NOME, PUNTEGGIO) VALUES (%s, %s)", talkToData::filtraCodiceSQL($nome),
+                          talkToData::filtraCodiceSQL($punteggio)); 			
+                    echo $query;
+                    echo (mysql_query($query));
+	   	}
+     	        @mysql_close($connessione); // SEMPRE CHIUDERE
+	}
+				
+	// ripulisce le stringhe da salvare all'interno della base dati //PRESO PARI PARI DA ES 4
+	private static function filtraCodiceSQL($stringa) {
+    	if (get_magic_quotes_gpc())
+        	$stringa = stripslashes($stringa);  	   
+			// toglie gli slash (\) altrimenti potrebbero essere aggiunti due volte
+      	if (!is_numeric($stringa))
+        	$stringa = "'" . mysql_real_escape_string($stringa) . "'";
+			 // converte i caratteri speciali SQL in modo che le query siano sicure
+     	return $stringa;
+    }
+
+  
+
+}
+?>
