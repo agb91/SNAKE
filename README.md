@@ -5,7 +5,7 @@ progetto prog web
 Snake, ispirato all'omonimo gioco dei nokia 3310
 
 Interfaccia: 
-Tabella 32*32 (o 64*64) ogni quadrato può essere colorato o bianco andando a creare dei disegni: il serpente che cresce ogni volta che mangia qualcosa, il cibo, rappresentato da un quadratino colorato, gli ostacoli che sono composti da una serie di forme (u, u-rovesciate, L, linee, punti). 
+Tabella 32x32 (o 64x64) ogni quadrato può essere colorato o bianco andando a creare dei disegni: il serpente che cresce ogni volta che mangia qualcosa, il cibo, rappresentato da un quadratino colorato, gli ostacoli che sono composti da una serie di forme (u, u-rovesciate, L, linee, punti). 
 
 Dinamica: 
 L'obbiettivo del gioco è direzionare il serpente con i tasti freccia (il serpente non può mai retrocedere) verso il cibo evitando gli ostacoli.
