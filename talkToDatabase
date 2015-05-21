@@ -6,45 +6,24 @@ class talkToData {
    	private static $password   = "";            // accedere come root senza password
    	private static $nomeDb     = "CLASSIFICA1";  //NOME DEL DB
 	 
-	// crea il codice HTML da scrivere nei risultati 
-	public static function getClass() { //ESTRAE DAL DATABASE LA CLASSIFICA E LA RESTITUISCE CON ECHO
-            // PER ORA USA ELENCO PUNTATO
-	   	$risultatoHTML = "\n<ul>\n";
-		try {	
-                        //PRIMA CREA CONNESSIONE E GESTISCE EVENTUALI ERRORI
-			$connessione = @mysql_connect(self::$nomeHost, self::$nomeUtente, self::$password);
-				// la @ all'inizio della funzione nasconde eventuali warning all'utente
-			if (!$connessione)
-			throw new Exception("Impossibile connettersi all'archivio: "); 
-        		$database = mysql_select_db(self::$nomeDb);
-				if (!$database)
-			throw new Exception("Impossibile connettersi alla classifica: ");
-        		$query = "SELECT NOME,PUNTEGGIO FROM CLASSIFICA1 ORDER BY PUNTEGGIO DESC ";
-                        // LA QUERY PRELEVA NOME E PUNTEGGIO
-        		$risultato = mysql_query($query);
-				while ($riga = mysql_fetch_array($risultato)) {
-           			$risultatoHTML = $risultatoHTML . "<li>" . $riga["PUNTEGGIO"] . "   " . $riga["NOME"] .  "\n";
-        		}	
-			}	
-		catch (Exception $e) {
-        	echo "<p>" . $e->getMessage() . mysql_error() . "</p>";
-	    }
-		$risultatoHTML = $risultatoHTML . "</ul>\n";
-		@mysql_close($connessione); // SEMPRE CHIUDERE IL DB APERTO
-		return $risultatoHTML;
-	}
+        
+        public static function connetti() //PROCEDURA STANDARD DI CONNESSIONE A DATABASE
+        {
+            $connessione = @mysql_connect(self::$nomeHost, self::$nomeUtente, self::$password);
+            // la @ all'inizio della funzione nasconde eventuali warning all'utente
+            if (!$connessione)
+            throw new Exception("Impossibile connettersi all'archivio: "); 
+            $database = mysql_select_db(self::$nomeDb);
+            if (!$database)
+            throw new Exception("Impossibile connettersi alla classifica: ");
+            return $connessione;
+        }
 	 
 	public static function salvaRecord($nome, $punteggio) { // VALUTA SE L'UTENTE ESISTE O È NUOVO
-            
+            //SALVA IL RECORD SSE È UN PUNTEGGIO PIÙ ALTO DEL RECORD PRECEDENTE, se non esiste salva sempre
             
             //CONNESSIONE E GESTINE ERRORI DI CONNESSIONE:
-            	$connessione = @mysql_connect(self::$nomeHost, self::$nomeUtente, self::$password);
-		// la @ all'inizio della funzione nasconde eventuali warning all'utente
-		if (!$connessione)
-		throw new Exception("Impossibile connettersi all'archivio: "); 
-        	$database = mysql_select_db(self::$nomeDb);
-		if (!$database)
-		throw new Exception("Impossibile connettersi alla classifica: ");
+            	$connessione = talkToData::connetti();
                 
              //query1 preventiva per capire se il nome è nuovo oppure c'è già  
                 $risultatoHTML = "";
@@ -56,20 +35,63 @@ class talkToData {
                         
                 if($risultatoHTML!="") // SE NON È VUOTO, QUINDI ESISTE GIÀ
             	{	
-                    // FACCIO UN UPDATE
-          	    $query = sprintf("UPDATE CLASSIFICA1 SET PUNTEGGIO=%s WHERE NOME=%s",
-		    talkToData::filtraCodiceSQL($punteggio), talkToData::filtraCodiceSQL($nome)); 			
-        	    if (!mysql_query($query))
-		    throw new Exception("Utente non registrato: "); 
-		}
-		else // SE INVECE NON È TROVATO QUINDI È NUOVO
+                    
+                    // ESTRAGGO RECORD ATTUALE
+                    $ris=talkToData::leggiRecordPersonale($nome); // QUESTO CHIUDE CONNESSIONE, DEVO RIAPRIRLA!!
+                    $connessione = talkToData::connetti();
+                    
+                    if($ris<$punteggio)
+                    {// FACCIO UN UPDATE
+                        $query = sprintf("UPDATE CLASSIFICA1 SET PUNTEGGIO=%s WHERE NOME=%s",
+                        talkToData::filtraCodiceSQL($punteggio), talkToData::filtraCodiceSQL($nome)); 			
+                        mysql_query($query);
+                    }
+                }
+                else // SE INVECE È VUOTO QUINDI È NUOVO
                 { //FACCIO UN INSERIMENTO
+                    //echo "insert";
                     $query= sprintf("INSERT INTO CLASSIFICA1 (NOME, PUNTEGGIO) VALUES (%s, %s)", talkToData::filtraCodiceSQL($nome),
-                          talkToData::filtraCodiceSQL($punteggio)); 			
-                    echo $query;
-                    echo (mysql_query($query));
-	   	}
-     	        @mysql_close($connessione); // SEMPRE CHIUDERE
+                    talkToData::filtraCodiceSQL($punteggio)); 			
+                    mysql_query($query);
+                }
+                @mysql_close($connessione); // SEMPRE CHIUDERE
+        }
+        
+        public static function leggiRecordGenerale()
+        {
+            $connessione = talkToData::connetti();
+                
+             $query = sprintf("SELECT PUNTEGGIO FROM GENERALE ORDER BY PUNTEGGIO DESC");
+             $risultato = mysql_query($query);
+             $ris="";
+             $riga = mysql_fetch_array($risultato);
+             $ris = $riga["PUNTEGGIO"];
+
+             @mysql_close($connessione); // SEMPRE CHIUDERE
+             return $ris;
+        }
+        
+         public static function leggiRecordPersonale($nome)
+        {
+            $connessione = talkToData::connetti();
+                
+             $query = sprintf("SELECT PUNTEGGIO FROM CLASSIFICA1 WHERE NOME=%s",talkToData::filtraCodiceSQL($nome));
+             $risultato = mysql_query($query);
+             $ris="";
+             $riga = mysql_fetch_array($risultato);
+             $ris = $riga["PUNTEGGIO"];
+             @mysql_close($connessione); // SEMPRE CHIUDERE
+             return $ris;
+        }
+        
+        public static function salvaTutto($nome, $punteggio) 
+        { //salva a prescindere per il bd di TUTTE le partite
+         //CONNESSIONE E GESTINE ERRORI DI CONNESSIONE:
+        $connessione = talkToData::connetti();
+        $query= sprintf("INSERT INTO GENERALE (NOME, PUNTEGGIO) VALUES (%s, %s)", talkToData::filtraCodiceSQL($nome),
+                     talkToData::filtraCodiceSQL($punteggio)); 			
+        mysql_query($query);
+ 	@mysql_close($connessione); // SEMPRE CHIUDERE
 	}
 				
 	// ripulisce le stringhe da salvare all'interno della base dati //PRESO PARI PARI DA ES 4
