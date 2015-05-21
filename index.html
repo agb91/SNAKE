@@ -22,7 +22,8 @@
             var velocita = 500; // ogni quanti milliseconti avanza
             var ciclo = 0;
             var vivo = true; //sono in gioco?
-            var punteggio=0;
+            var punteggio=10;
+            var utente="joaoPinto";
             var dimensione = 64;
             
             // inizializzo il serpente di partenza
@@ -85,6 +86,11 @@
                 return risp;
             }
             
+            function morte()
+            {
+                 window.location.href = 'intermediario.php?utente=' + utente + "&punteggio=" + punteggio;
+            }
+            
             
             function avanza() // richiamato ogni tot millisecondi dall'html
             // porta avanti il serpende di 1 nella direzione attule, verifica se la nuova posizione implica la morte
@@ -121,8 +127,10 @@
 
                 if(verifica(testaX,testaY)) // caso morte
                 {
-                    alert("morte");
+                    alert("Il tuo gioco finisce qui");
+                    alert("Il punteggio e' "+punteggio);
                     vivo=false;
+                    morte();
                 }
                   var ultima = vettoreX.length-1; 
 
