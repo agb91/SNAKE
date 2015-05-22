@@ -3,7 +3,7 @@
     <head>
         <title>Classe JavaScript per generare una tabella html - Dev-OClock.com</title>
     </head>
-    <body onload = "setInterval('avanza()',500);">
+    <body onload = "setInterval('avanza()',<?php $velocita=450; echo $velocita?>);">
         
         <!-- div container -->
         <div id="div-table"></div>
@@ -19,12 +19,16 @@
             var vettoreX = [];
             var vettoreY = [];
             var dir = 1; //1=dx, 2 = giu, 3 = sx 4=su
-            var velocita = 500; // ogni quanti milliseconti avanza
             var ciclo = 0;
             var vivo = true; //sono in gioco?
-            var punteggio=10;
-            var utente="joaoPinto";
+            var punteggio=10;// provvisorio cambiare
+            var utente="joaoPinto"; // provvisorio, cambiare
             var dimensione = 64;
+            var coloreSfondo = "Red";
+            var coloreSerpente = "Gray";
+            var larghezzaTabella = "50";
+            var altezza1Riga = 6;
+            var quantoAvanza = 1; // di quanti quadretti per volta avanza il serpente?
             
             // inizializzo il serpente di partenza
             vettoreX[0]=testaX;
@@ -45,6 +49,7 @@
             vettoreY[5]=1;
             vettoreY[6]=1;
             vettoreY[7]=1;
+                     
             
             function HtmlTable(id, cssInline) { // funzione che crea l'intestazione di una tabella
                 //simula la forma di una classe per poter essere usata come tale (fatto irrilevante sul resto del programma)
@@ -67,7 +72,7 @@
             {
                 for(var i=0; i<vettoreX.length; i++)
                 {
-                colore(vettoreX[i],vettoreY[i],"Black");
+                colore(vettoreX[i],vettoreY[i],coloreSerpente);
                 }
             }
             
@@ -79,7 +84,7 @@
                 var ide = tx+"-"+ty; 
                 attuale=document.getElementById(ide);
 
-                if(attuale.style.backgroundColor=="black")
+                if(attuale.style.backgroundColor==coloreSerpente)
                 {
                    risp=true; 
                 }
@@ -100,17 +105,17 @@
               {  
                 if(dir==1)
                 {
-                    testaX++;
+                    testaX += quantoAvanza;
                     testaX=testaX%dimensione;
                 }                
                 if(dir==2)
                 {
-                    testaY++;
+                    testaY+=quantoAvanza;
                     testaY=testaY%dimensione;
                 }
                 if(dir==3)
                 {
-                    testaX--;
+                    testaX-=quantoAvanza;
                     if(testaX<0)
                     {
                         testaX=dimensione-1;
@@ -118,7 +123,7 @@
                 }
                 if(dir==4)
                 {
-                    testaY--;
+                    testaY-=quantoAvanza;
                     if(testaY<0)
                     {
                         testaY=dimensione-1;
@@ -142,7 +147,7 @@
                 vettoreX[0]=testaX;
                 vettoreY[0]=testaY;
                // l'ultimo viene calcellato 
-                colore(vettoreX[ultima],vettoreY[ultima],"Red");
+                colore(vettoreX[ultima],vettoreY[ultima],coloreSfondo);
                 vettoreX[ultima]=999; //99 sta per cancellato
                 vettoreY[ultima]=999;
 
@@ -193,7 +198,7 @@
                 {
                     var c = i;
                     var id = c+"-"+contRow;
-                   this.htmlOutput += "<td id=\""+ id+"\" style=\"background-color:red\" height=\"6\">" + arrCols[i] + "</td>";
+                   this.htmlOutput += "<td id=\""+ id+"\" style=\"background-color:"+coloreSfondo+"\" height=\""+altezza1Riga+"\">" + arrCols[i] + "</td>";
                    //gestisce altezza e colore di base
                 }
                 contRow++;
@@ -208,7 +213,7 @@
             //*** how to use the class ***
             
             //creates an instance of the class (object)
-            var myTable = new HtmlTable("test-table-id", "width: 50%"); //creo la tabella con un id e una larghezza
+            var myTable = new HtmlTable("test-table-id", "width: "+larghezzaTabella+"%"); //creo la tabella con un id e una larghezza
             
             //calls the method passing an array as argument
             riga = new Array();
