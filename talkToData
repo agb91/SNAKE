@@ -21,22 +21,21 @@ class talkToData {
 
         public static function verificaUtente($nome, $pw)
         {
-        	$connessione = talkToData::connetti();
-        	
-        	//query1 preventiva per capire se il nome � nuovo oppure c'� gi�
-        	$risultatoHTML = "";
-        	$query1= sprintf("SELECT NOME FROM CLASSIFICA1 WHERE NOME=%s",talkToData::filtraCodiceSQL($nome));
-        	$risultato = mysql_query($query1);
-        	while ($riga = mysql_fetch_array($risultato)) {
-        		$risultatoHTML = $risultatoHTML . $riga["NOME"] .  "\n";
+         //CONNESSIONE E GESTINE ERRORI DI CONNESSIONE:
+            	$connessione = talkToData::connetti();
+                
+             //query1 preventiva per capire se il nome � nuovo oppure c'� gi�  
+                $risultatoHTML = "";
+                $query1= sprintf("SELECT * FROM CLASSIFICA1 WHERE NOME=%s",talkToData::filtraCodiceSQL($nome));  
+                $risultato = mysql_query($query1);
+		while ($riga = mysql_fetch_array($risultato)) {
+           	$risultatoHTML = $risultatoHTML . $riga["NOME"] .  "\n";
+                $nomeQ = $riga["NOME"];
+                $pwQ =  $riga["PASSWORD"];
         	}
+                
         	if($risultatoHTML!="") // SE NON � VUOTO, QUINDI ESISTE GI�
         	{
-        		$riga = mysql_fetch_array($risultato);
-        		$nomeQ="";
-        		$nomeQ = $riga["NOME"];
-        		$pwQ="";
-        		$pwQ = $riga["PASSWORD"];
         		if (($nome==$nomeQ) && ($pw==$pwQ))
         			return true;
         		else return false;
@@ -44,6 +43,33 @@ class talkToData {
         	else // SE INVECE � VUOTO QUINDI � NUOVO
                 return false;
             @mysql_close($connessione); // SEMPRE CHIUDERE
+        }
+        
+        
+        public static function verificaUtenteTESTING($nome, $pw)
+        {
+            
+         //CONNESSIONE E GESTINE ERRORI DI CONNESSIONE:
+            $connessione = talkToData::connetti();
+               
+             //query1 preventiva per capire se il nome � nuovo oppure c'� gi�  
+                $risultatoHTML = "";
+                $query1= sprintf("SELECT * FROM CLASSIFICA1 WHERE NOME=%s",talkToData::filtraCodiceSQL($nome));  
+                $risultato = mysql_query($query1);
+		while ($riga = mysql_fetch_array($risultato)) {
+           	$risultatoHTML = $risultatoHTML . $riga["NOME"] .  "\n";
+                $nomeQ = $riga["NOME"];
+                $pwQ =  $riga["PASSWORD"];
+        	}
+                
+                $ris = "lettura";
+        	if($risultatoHTML!="") // SE NON � VUOTO, QUINDI ESISTE GI�
+        	{ 
+                        $ris = $nomeQ.$pwQ;
+                        echo $ris;
+                }
+           @mysql_close($connessione); // SEMPRE CHIUDERE
+           return $ris;
         }
         
         
