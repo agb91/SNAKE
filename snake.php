@@ -19,10 +19,6 @@ require_once ("controllo.php");
         <td id="gioco" colspan="2" style="text-align:center">
         <script type="text/javascript" src="snake.js"></script>
         </td></tr>
-        </table>
-        
-        
-        
-        
+        </table>     
     </body>
 </html>
