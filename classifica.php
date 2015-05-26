@@ -18,10 +18,11 @@ require_once ("controllo.php");
           function __autoload($class_name) {        // non richiamato
           require_once $class_name . '.php';
           }
-          $utente = $_GET["utente"];
-          $punteggio = $_GET["punteggio"];
-          if($punteggio!=1)
+
+          if (count($_GET)==2) //chiamato da login
           {
+            $utente = $_GET["utente"];
+            $punteggio = $_GET["punteggio"];
             talkToData::salvaRecord($utente,$punteggio);    // prova a scrivere nel caso di nuovo utente ed a scovrascrivere se utente gi� in db
             talkToData::salvaTutto($utente,$punteggio);
             echo "Salve ".$utente." il tuo punteggio &egrave;: " . $punteggio. "<br><br>" ;
