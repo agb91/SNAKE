@@ -1,4 +1,5 @@
 <?php 
+require_once 'talkToData.php';
 	session_start();	
 	if (count($_POST)==2) //chiamato da login
 	{
