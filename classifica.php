@@ -30,7 +30,7 @@ require_once ("controllo.php");
           }
           echo "Il record generale &egrave;: " . talkToData::leggiRecordGenerale();
           echo "<br><br>";
-          echo '<a href="logout.php">Esci</a><br>'
+          echo '<a href="index.php">Home</a><br>'
         ?>
      </fieldset>
     </div>
