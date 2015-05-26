@@ -1,8 +1,4 @@
 <?php 
-require_once ("talkToData.php"); //da query sul database
-//require_once ("config.php");
-
-
 	session_start();	
 	if (count($_POST)==2) //chiamato da login
 	{
