@@ -4,7 +4,7 @@ require_once ("controllo.php");
 <html>     
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Ricezione classifica</title>
+    <title>Classifica</title>
     <style type="text/css">
       * { font-size: 18pt; }   
     </style>
@@ -13,24 +13,57 @@ require_once ("controllo.php");
       
     <div>
      <fieldset>
-      <legend> <strong>classifica </strong></legend>
+      <legend> <strong>Classifica </strong></legend>
         <?php  // L'INTESTATURA HTML SERVE PER QUESTIONI ESTETICHE (LA APRTE STYLE)
-          function __autoload($class_name) {        // non richiamato
-          require_once $class_name . '.php';
-          }
-
-          if (count($_GET)==2) //chiamato da login
+          
+		require_once ("talkToData.php");
+          
+          if (count($_GET)>=1) //chiamato da classifica generale
           {
             $utente = $_GET["utente"];
-            $punteggio = $_GET["punteggio"];
-            talkToData::salvaRecord($utente,$punteggio);    // prova a scrivere nel caso di nuovo utente ed a scovrascrivere se utente gi� in db
-            talkToData::salvaTutto($utente,$punteggio);
-            echo "Salve ".$utente." il tuo punteggio &egrave;: " . $punteggio. "<br><br>" ;
-            echo "Il tuo record personale &egrave;: ". talkToData::leggiRecordPersonale($utente)."<br><br>";
+            echo "Salve ".$utente."<br>";
+            if (count($_GET)==2) //chiamato da snake.php
+            {
+            	$punteggio = $_GET["punteggio"];
+            	echo "Il tuo punteggio attuale &egrave;: ".$punteggio."<br><br>" ;
+            	talkToData::salvaRecord($utente,$punteggio);
+            }
+            $classifica=talkToData::leggiRecordPersonale($utente);
+            $numPunt=count($classifica);
+            echo "Ecco la classifica dei tuoi ".$numPunt." punteggi migliori:<br>";
+            
+            echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="120">';
+            echo '<thead><td></td><td>Punteggio</td></thead>';
+            $n=1;
+            for ($i=0; $i<$numPunt; $i++)
+            {
+            	echo '<tr><td >'.$n.'</td><td>'.$classifica[$i].'</td></tr>';
+            	$n++;
+            }
+            echo "</table><br><br>";
+            
+            if (count($_GET)==2) //chiamato da snake.php
+            	echo '<a href="snake.php">Gioca di nuovo</a> ';
+            echo '<a href="classifica.php">Classifica globale</a> ';
           }
-          echo "Il record generale &egrave;: " . talkToData::leggiRecordGenerale();
-          echo "<br><br>";
-          echo '<a href="index.php">Home</a><br>'
+          else //chiamato da index.php
+          {
+         	$classifica=talkToData::leggiRecordGenerale();
+          	$numPunt=count($classifica);
+          	echo "Ecco la classifica dei ".$numPunt." punteggi migliori:<br>";
+          	
+          	echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="100"><col width="120">';
+          	echo '<thead><td></td><td>Nome</td><td>Punteggio</td></thead>';
+          	$n=1;
+          	for ($i=0; $i<$numPunt; $i++)
+          	{
+          		echo '<tr><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
+          		$n++;
+          	}
+          	echo "</table><br><br>";
+          	echo '<a href="classifica.php?utente='.$_SESSION["login"].'">Classifica presonale</a> ';
+          }
+          echo '<a href="index.php">Home</a>';
         ?>
      </fieldset>
     </div>
