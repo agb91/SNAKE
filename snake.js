@@ -1,4 +1,4 @@
-          interval = setInterval(avanza, velocita);
+interval = setInterval(avanza, velocita);
 function avanzaLivello() 
 {
 	liv = (Math.floor(punteggio / puntiLivello)) + 1;
@@ -82,7 +82,7 @@ function disegnaSerpente() // mi occupo di disegnare il serpende allo stato attu
 {
 	for (var i = 0; i < vettoreX.length; i++)
 		colore(vettoreX[i], vettoreY[i], coloreSerpente);
-	colore(cibo[0], cibo[1], coloreCibo);
+	//colore(cibo[0], cibo[1], coloreCibo);
 }
 
 
@@ -91,7 +91,7 @@ function verifica(tx, ty) // falso se vita vero se morte verifica se la nuova po
 {
 	risp = false;
 	attuale = document.getElementById(tx + "-" + ty).style.backgroundColor;
-	if (attuale == coloreSerpente || attuale == coloreOstacolo)
+	if ((attuale == coloreSerpente || attuale == coloreOstacolo))
 		risp = true;
 	return risp;
 }
@@ -107,6 +107,9 @@ function avanza() // richiamato ogni tot millisecondi dall'html
 // porta avanti il serpende di 1 nella direzione attule, verifica se la nuova
 // posizione implica la morte e disegna il nuovo serpente
 {
+	if(cibo[0]==-1) //serve solo per la prima volta
+		creaCibo();
+	
 	if (vivo) // se sono in gioco
 	{
 		if (dir == 1) 
@@ -133,13 +136,19 @@ function avanza() // richiamato ogni tot millisecondi dall'html
 
 		if (verifica(testaX, testaY)) // caso morte
 		{
-			alert("Il tuo gioco finisce qui");
-			vivo = false;
-			morte();
+			if(!immortal)
+			{
+				alert("Il tuo gioco finisce qui");
+				vivo = false;
+				morte();
+			}
 		}
 
 		if (testaX == cibo[0] && testaY == cibo[1]) // caso cibo
-			mangiato = true;
+			{
+				mangiato = true;
+				immortal = false; //appena mangio torno mortale
+			}
 
 		var ultima = vettoreX.length - 1;
 		colore(vettoreX[ultima], vettoreY[ultima], coloreSfondo);
@@ -157,8 +166,7 @@ function avanza() // richiamato ogni tot millisecondi dall'html
 			vettoreX.push(vettoreX[ultima]);
 			vettoreY.push(vettoreY[ultima]);
 			mangiato = false;
-			punteggio = punteggio + incrementoPunteggio;
-			document.getElementById("punteggio").firstChild.nodeValue = punteggio;
+			mangiaCibo();
 			avanzaLivello();
 			creaCibo();
 		}
