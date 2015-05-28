@@ -17,6 +17,9 @@ require_once ("controllo.php");
         </tr>
         <tr>
         <td id="gioco" colspan="2" style="text-align:center">
+        <script type="text/javascript" src="configuratore.js"></script>
+        <script type="text/javascript" src="cibo.js"></script>
+        <script type="text/javascript" src="labirinto.js"></script>
         <script type="text/javascript" src="snake.js"></script>
         </td></tr>
         </table>     
