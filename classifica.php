@@ -61,7 +61,7 @@ require_once ("controllo.php");
           		$n++;
           	}
           	echo "</table><br><br>";
-          	echo '<a href="classifica.php?utente='.$_SESSION["login"].'">Classifica presonale</a> ';
+          	echo '<a href="classifica.php?utente='.$_SESSION["login"].'">Classifica personale</a> ';
           }
           echo '<a href="index.php">Home</a>';
         ?>
