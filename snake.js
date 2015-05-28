@@ -2,9 +2,11 @@
             //*** class definition ***
             //variabili
             //IL SERPENTE È RAPRESENTATO DA UNA TESTA (COO X E Y) E 2 ARRAY DI PUNTI (CON COO X E Y)
+            var xhr;
+            
             var contRow = 0;
-            var testaX = 9;
-            var testaY = 1;
+            var testaX = 19;
+            var testaY = 11;
             var vettoreX = [];
             var vettoreY = [];
             var cibo = [];
@@ -16,7 +18,7 @@
             var incrementoPunteggio = 10;
             var celle=7; //quadrato per ostacolo
             var numCelle=8; //quante celle nel campo
-            var dimensione = (celle+1)*numCelle-1;
+            var dimensione = 64;//(celle+1)*numCelle-1;
             var puntiLivello=10; //30
             var coloreSfondo = "yellow";
             var coloreSerpente = "green";
@@ -35,21 +37,21 @@
             vettoreX[0]=testaX;
             vettoreY[0]=testaY;
             
-            vettoreX[1]=8;
-            vettoreX[2]=7;
-            vettoreX[3]=6;
-            vettoreX[4]=5;
-            vettoreX[5]=4;
-            vettoreX[6]=3;
-            vettoreX[7]=2;
+            vettoreX[1]=18;
+            vettoreX[2]=17;
+            vettoreX[3]=16;
+            vettoreX[4]=15;
+            vettoreX[5]=14;
+            vettoreX[6]=13;
+            vettoreX[7]=12;
             
-            vettoreY[1]=1;
-            vettoreY[2]=1;
-            vettoreY[3]=1;
-            vettoreY[4]=1;
-            vettoreY[5]=1;
-            vettoreY[6]=1;
-            vettoreY[7]=1;
+            vettoreY[1]=11;
+            vettoreY[2]=11;
+            vettoreY[3]=11;
+            vettoreY[4]=11;
+            vettoreY[5]=11;
+            vettoreY[6]=11;
+            vettoreY[7]=11;
             
             //creo il cibo di partenza
             cibo[0]=15;
@@ -76,31 +78,123 @@
             		}
             	creaOstacolo();
             }
-
             
-            function creaOstacolo()
+            var xhr;
+
+    function myGetXmlHttpRequest()
+    {
+        var XmlHttpReq = false;
+        var activeXopt = new Array("Microsoft.XmlHttp", "MSXML4.XmlHttp", "MSXML3.XmlHttp", "MSXML2.XmlHttp", "MSXML.XmlHttp");
+     // prima come oggetto nativo
+        try
+     {
+         XmlHttpReq = new XMLHttpRequest();
+    }
+    catch(e)
+    {
+        // poi come oggetto ActiveX dal più al meno recente
+        var created = false;
+        for(var i=0; i<activeXopt.length && !created; i++)
+        {
+        try
+         {
+          XmlHttpReq = new ActiveXObject(activeXopt[i]);
+          created = true;
+         }
+        catch(eActXobj)
+         {
+            alert("Il tuo browser non supporta AJAX!");
+         }
+        }
+    }
+    return XmlHttpReq;  
+   }
+   
+   function disegnaLabirinto(v)
+   {
+       var res = v.split("-");
+       var vgen = [];
+
+       for(i=0; i<res.length-1;i++)
+       {
+           vgen[i]=res[i].split(" ");
+       }
+       for(r=0; r<res.length-1; r++)
+       {
+          var at = vgen[r];
+          colore(at[0],at[1],coloreOstacolo);
+          x=parseInt(at[0]);
+          y=parseInt(at[1]);
+          d=parseInt(at[2]);
+          l=parseInt(at[3]);
+       
+       
+          if(d==1)//orizzontaleNDX
+          {
+              for(i=0; i<l;i++)
+              {
+                  //if((x+i)>0&&(x+i)<dimensione)
+                  //{
+                     colore((x+i),y,coloreOstacolo);
+                  //}
+              }
+          } 
+       
+         if(d==2)//verticale DOWN
+         {
+            for(i=0; i<l;i++)
             {
-               	do
-            		{
-            			x1=Math.round(Math.random() * (dimensione-1));
-            			y1=Math.round(Math.random() * (dimensione-1));
-            			x2=x1;
-            			y2=y1+1;
-            			x3=x1+1;
-            			y3=y1;
-            			x4=x1+1;
-            			y4=y1+1;
-            			attuale1=document.getElementById(x1+"-"+y1).style.backgroundColor;
-            			attuale2=document.getElementById(x2+"-"+y2).style.backgroundColor;
-            			attuale3=document.getElementById(x3+"-"+y3).style.backgroundColor;
-            			attuale4=document.getElementById(x4+"-"+y4).style.backgroundColor;
-            		}
-            	while (attuale1!=coloreSfondo && attuale2!=coloreSfondo && attuale3!=coloreSfondo && attuale4!=coloreSfondo)
-            	document.getElementById(x1+"-"+y1).style.backgroundColor = coloreOstacolo;
-            	document.getElementById(x2+"-"+y2).style.backgroundColor = coloreOstacolo;
-            	document.getElementById(x3+"-"+y3).style.backgroundColor = coloreOstacolo;
-            	document.getElementById(x4+"-"+y4).style.backgroundColor = coloreOstacolo;
+ //               if((y+i)>0&&(y+i)<dimensione)
+  //              {
+                   colore(x,y+i,coloreOstacolo);
+  //              }
             }
+        }
+        if(d==3)//ORIZZ SX
+        {
+            for(i=0; i<l;i++)
+            {
+    //            if((x-i)>0&&(x-i)<dimensione)
+     //           {
+                   colore(x-i,y,coloreOstacolo);
+      //          }
+            }
+        }   
+        if(d==4)//VERT UP
+        {
+            for(i=0; i<l;i++)
+            {
+   //             if((y-i)>0&&(y-i)<dimensione)
+     //           {
+                   colore(x,y-i,coloreOstacolo);
+       //         }
+            }
+        }  
+        }
+   }
+
+    function tornaLabirinto()
+    // LE DIREZIONI SONO: 1 SE ORIZZONTALE DX E POI VIA IN SENSO ORARIO
+    {
+        if(xhr.readyState==4)
+        {
+           var vost = xhr.responseText;
+           disegnaLabirinto(vost);
+        }
+    }
+            
+    function creaOstacolo()
+    {
+        var liv="1";
+        var url = "labirinto.php?liv=" + liv.toUpperCase();
+        xhr = myGetXmlHttpRequest();
+        xhr.onreadystatechange=tornaLabirinto;
+        xhr.open("GET",url,true);
+        xhr.setRequestHeader("connection","close");
+        xhr.send(null);
+      
+        
+    }
             
             
             function HtmlTable(id, cssInline) { // funzione che crea l'intestazione di una tabella
@@ -158,7 +252,10 @@
             
             function colore(x,y,color) // coloro del colore detto la cella detta, il conto delle celle parte da 0 non da 1
             {
-                document.getElementById(x+"-"+y).style.backgroundColor=color;
+                if(x<64&&y<64&&x>0&&x>0)
+                {
+                    document.getElementById(x+"-"+y).style.backgroundColor=color;
+                }
             }
             
             function disegnaSerpente()  // mi occupo di disegnare il serpende allo stato attuale
@@ -312,3 +409,4 @@
             }
             
                        
+      
