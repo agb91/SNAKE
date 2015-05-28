@@ -1,5 +1,5 @@
           
-            //*** class definition ***
+           //*** class definition ***
             //variabili
             //IL SERPENTE È RAPRESENTATO DA UNA TESTA (COO X E Y) E 2 ARRAY DI PUNTI (CON COO X E Y)
             var xhr;
@@ -16,9 +16,7 @@
             var mangiato = false; //ho mangiato?
             var punteggio=0;
             var incrementoPunteggio = 10;
-            var celle=7; //quadrato per ostacolo
-            var numCelle=8; //quante celle nel campo
-            var dimensione = 64;//(celle+1)*numCelle-1;
+            var dimensione = 64;
             var puntiLivello=10; //30
             var coloreSfondo = "yellow";
             var coloreSerpente = "green";
@@ -27,11 +25,12 @@
             var larghezzaTabella = "100";
             var altezza1Riga = 5; //cosa è?
             var quantoAvanza = 1; // di quanti quadretti per volta avanza il serpente?
-            var livello=0;
+            var livello=1;
             var velocita=450; //velocità iniziale
             var interval;
             var incrementoVelocita = 100; //è alto, ma è solo per provare
             var minimoVelocita=30;
+            var xhr;
             
             // inizializzo il serpente di partenza
             vettoreX[0]=testaX;
@@ -65,6 +64,7 @@
             	liv=(Math.floor(punteggio/puntiLivello))+1;
             	if (liv>livello)
             		{
+            			pulisci();
             			livello=liv;
             			document.getElementById("livello").firstChild.nodeValue=livello;
             			clearInterval(interval); // stop setInterval()
@@ -74,12 +74,25 @@
             			else
             				velocita = minimoVelocita;
 
-            	        interval = setInterval(avanza, velocita); // start the setInterval()
+            	        interval = setInterval(avanza, velocita); // start the setInterval() 
+            	       
+            	        creaOstacolo(livello-1);          	        
             		}
-            	creaOstacolo();
             }
             
-            var xhr;
+            
+            function pulisci()
+            {
+            	for (i=0; i<dimensione; i++)
+            		{
+            		for (j=0; j<dimensione; j++)
+            			{
+            				if(document.getElementById(i+"-"+j).style.backgroundColor==coloreOstacolo)
+            					document.getElementById(i+"-"+j).style.backgroundColor=coloreSfondo;
+            			}
+            		}
+            }
+            
 
     function myGetXmlHttpRequest()
     {
@@ -112,7 +125,7 @@
    
    function disegnaLabirinto(v)
    {
-       var res = v.split("-");
+	   var res = v.split("-");
        var vgen = [];
 
        for(i=0; i<res.length-1;i++)
@@ -133,10 +146,7 @@
           {
               for(i=0; i<l;i++)
               {
-                  //if((x+i)>0&&(x+i)<dimensione)
-                  //{
-                     colore((x+i),y,coloreOstacolo);
-                  //}
+                  colore((x+i),y,coloreOstacolo);
               }
           } 
        
@@ -144,33 +154,25 @@
          {
             for(i=0; i<l;i++)
             {
- //               if((y+i)>0&&(y+i)<dimensione)
-  //              {
-                   colore(x,y+i,coloreOstacolo);
-  //              }
+            	colore(x,(y+i),coloreOstacolo);
             }
         }
         if(d==3)//ORIZZ SX
         {
             for(i=0; i<l;i++)
             {
-    //            if((x-i)>0&&(x-i)<dimensione)
-     //           {
-                   colore(x-i,y,coloreOstacolo);
-      //          }
+            	colore((x-i),y,coloreOstacolo);
             }
         }   
         if(d==4)//VERT UP
         {
             for(i=0; i<l;i++)
             {
-   //             if((y-i)>0&&(y-i)<dimensione)
-     //           {
-                   colore(x,y-i,coloreOstacolo);
-       //         }
+            	colore(x,(y-i),coloreOstacolo);
             }
         }  
         }
+      
    }
 
     function tornaLabirinto()
@@ -183,10 +185,9 @@
         }
     }
             
-    function creaOstacolo()
+    function creaOstacolo(liv)
     {
-        var liv="1";
-        var url = "labirinto.php?liv=" + liv.toUpperCase();
+        var url = "labirinto.php?liv=" + liv;
         xhr = myGetXmlHttpRequest();
         xhr.onreadystatechange=tornaLabirinto;
         xhr.open("GET",url,true);
@@ -252,7 +253,7 @@
             
             function colore(x,y,color) // coloro del colore detto la cella detta, il conto delle celle parte da 0 non da 1
             {
-                if(x<64&&y<64&&x>0&&x>0)
+                if(x<64&&y<64&&x>=0&&x>=0)
                 {
                     document.getElementById(x+"-"+y).style.backgroundColor=color;
                 }
@@ -339,7 +340,6 @@
                 if(verifica(testaX,testaY)) // caso morte
                 {
                     alert("Il tuo gioco finisce qui");
-                    alert("Il punteggio e' "+punteggio);
                     vivo=false;
                     morte();
                 }
@@ -365,12 +365,11 @@
                 		mangiato=false;
                 		punteggio=punteggio+incrementoPunteggio;
                 		document.getElementById("punteggio").firstChild.nodeValue=punteggio;
-                		creaCibo();
                 		avanzaLivello();
+                		creaCibo();
                 	}
                 
                 
-                colore(cibo[0],cibo[1],coloreCibo);
                 disegnaSerpente(); // disegno il nuovo serpente
               }  
             }
@@ -409,4 +408,4 @@
             }
             
                        
-      
+    
