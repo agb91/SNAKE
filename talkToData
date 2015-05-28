@@ -3,7 +3,7 @@ class talkToData {
 	private static $nomeHost   = "localhost";
    	private static $nomeUtente = "root";        // per progetti non didattici, mai
    	private static $password   = "";            // accedere come root senza password
-   	private static $nomeDb     = "SNAKE";       //NOME DEL DB
+   	private static $nomeDb     = "CLASSIFICA1";       //NOME DEL DB
 	 
         
         public static function connetti() //PROCEDURA STANDARD DI CONNESSIONE A DATABASE
@@ -16,6 +16,21 @@ class talkToData {
             if (!$database)
             throw new Exception("Impossibile connettersi alla classifica: ");
             return $connessione;
+        }
+        
+         public static function ostacolo($liv)
+        { 
+            talkToData::connetti();
+            $tabella = "LABIRINTI".$liv;
+            $query1= sprintf("SELECT * FROM ".$tabella);  
+            $risultato = mysql_query($query1);
+            $ri = "";
+            while ($riga = mysql_fetch_array($risultato)) 
+            {
+                $ri = $ri."".$riga["XINIZIO"]." ". $riga["YINIZIO"]." ".$riga["DIREZIONE"]." ".$riga["LUNGHEZZA"]."-";
+            }
+            @mysql_close($connessione);
+            return $ri;
         }
 
         public static function verificaUtente($nome, $pw)
