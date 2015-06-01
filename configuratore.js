@@ -63,3 +63,13 @@ vettoreY[7] = 11;
 // creo il cibo di partenza
 cibo[0] = -1;
 cibo[1] = -1;
+
+//riempio la legenda dei colori
+document.getElementById("c1").firstChild.nodeValue = coloreCibo;
+document.getElementById("s1").firstChild.nodeValue = "cibo normale";
+document.getElementById("c2").firstChild.nodeValue = coloreCiboBonus1;
+document.getElementById("s2").firstChild.nodeValue = "bonus punti";
+document.getElementById("c3").firstChild.nodeValue = coloreCiboBonus2;
+document.getElementById("s3").firstChild.nodeValue = "diminuisce lunghezza";
+document.getElementById("c4").firstChild.nodeValue = coloreCiboBonus3;
+document.getElementById("s4").firstChild.nodeValue = "immortalità";
