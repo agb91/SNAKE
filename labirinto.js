@@ -1,4 +1,4 @@
-function myGetXmlHttpRequest() 
+function myGetXmlHttpRequest() //PRESO DA ESERCIZIO IN CLASSE: SERVE PER USARE AJAX, SEMPRE UGUALE
 {
 	var XmlHttpReq = false;
 	var activeXopt = new Array("Microsoft.XmlHttp", "MSXML4.XmlHttp",
@@ -26,7 +26,8 @@ function myGetXmlHttpRequest()
 }
 
 
-function tornaLabirinto()
+function tornaLabirinto() //CHIAMANDO QUESTA FUNZIONE, CHE SI ATTIVA SSE IL SERVER HA RISPOSTO (READYSTATE4) 
+// DISEGNA IL LABIRINTO BASANDOSI SULLE INFO OTTENUTE. FA PARTE DI AJAX
 // LE DIREZIONI SONO: 1 SE ORIZZONTALE DX E POI VIA IN SENSO ORARIO
 {
 	if (xhr.readyState == 4) 
@@ -37,7 +38,8 @@ function tornaLabirinto()
 }
 
 
-function creaOstacolo(liv) 
+function creaOstacolo(liv) // RICEVO IL LIVELLO E RICHIEDO AL SERVER QUALI OSTACOLI CI SONO
+// NDR USO AJAX, COL METODO GET (dati dopo punto di domanda)
 {
 	var url = "labirinto.php?liv=" + liv;
 	xhr = myGetXmlHttpRequest();
@@ -47,7 +49,7 @@ function creaOstacolo(liv)
 	xhr.send(null);
 }
 
-//cancella il labirinto precedente
+
 function pulisci() 
 {
 	for (i = 0; i < dimensione; i++) 
@@ -61,8 +63,10 @@ function pulisci()
 }
 
 
-function disegnaLabirinto(v) 
+function disegnaLabirinto(v) //V È LA STRINGA CON LE INFO DI DISEGNO: È UNA MATRICE DENTRO UNA STRINGA
+//QUINDI DEVO DIVIDERLA USANTO I TRATTINI E GLI SPAZI PER TRATTARLA COME MATRICE
 {
+    // LE INFO DELLA MATRCE SONO XINIZIALE, YINIZIALE, DIREZIONE (1,2,3,4) E LUNGHEZZA DI OGNI LINEA DEL LABIRINTO
 	var res = v.split("-");
 	var vgen = [];
 	var cb = false;
@@ -75,11 +79,13 @@ function disegnaLabirinto(v)
 	{
 		var at = vgen[r];
 		colore(at[0], at[1], coloreOstacolo);
-		x = parseInt(at[0]);
-		y = parseInt(at[1]);
-		d = parseInt(at[2]);
-		l = parseInt(at[3]);
-
+		x = parseInt(at[0]); //xinizio
+		y = parseInt(at[1]);//yinizio
+		d = parseInt(at[2]); //direzione
+		l = parseInt(at[3]);//lunghezza
+                
+                //IL DISEGNO AVVIENE PER OGNI DIREZIONE AUMENTANDO (FINO AL RAGGIUNGIMENTO DELLA LUNGHEZZA)
+                // LE X O LE Y VERSO LA DIREZIONE E DISEGNANDO I VARI PUNTI MAN MANO
 		if (d == 1)// orizzontaleNDX
 		{
 			for (i = 0; i < l; i++)
