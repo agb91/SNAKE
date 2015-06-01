@@ -19,17 +19,20 @@ class talkToData {
         }
 
         
-        public static function ostacolo($liv)
+        public static function ostacolo($liv) // sapendo il livello, devo cercare nel DB gli ostacoli competenti
+                //per restituirli tramite ajax al client
+                //LE INFO SONO XINIZIO, Y INIZIO, DIREZIONE (1,2,3,4) E LUNGHEZZA DI OGNI LINEA DEL LABIRINTO
         {
-        	talkToData::connetti();
+        	$connessione=talkToData::connetti();
         	$tabella = "LABIRINTI".$liv;
-        	$query1= sprintf("SELECT * FROM ".$tabella);
+        	$query1= sprintf("SELECT * FROM ".$tabella); //query composta dinamicamente rispetto al livello
         	$risultato = mysql_query($query1);
         	$ri = "";
         	while ($riga = mysql_fetch_array($risultato))
         	{
         		$ri = $ri."".$riga["XINIZIO"]." ". $riga["YINIZIO"]." ".$riga["DIREZIONE"]." ".$riga["LUNGHEZZA"]."-";
-        	}
+        	}//LA QUERY RENDE UNA MATRICE, IO LA TRASFORMO IN UNA STRING DOVE LE COLONNE DELLA MATRIC SONO DIVISE DALLO SPAZIO
+                // E LE RIGHE DAL TRATTINO
         	@mysql_close($connessione);
         	return $ri;
         }
