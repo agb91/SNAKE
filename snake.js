@@ -6,6 +6,7 @@ function avanzaLivello()
 	{
 		pulisci();
 		livello = liv;
+		creaOstacolo(livello);
 		document.getElementById("livello").firstChild.nodeValue = livello;
 		clearInterval(interval); // stop setInterval()
 		if ((velocita - incrementoVelocita) >= minimoVelocita)
@@ -13,7 +14,6 @@ function avanzaLivello()
 		else
 			velocita = minimoVelocita;
 		interval = setInterval(avanza, velocita); // start the setInterval()
-		creaOstacolo(livello - 1);
 	}
 }
 
@@ -148,6 +148,7 @@ function avanza() // richiamato ogni tot millisecondi dall'html
 			{
 				mangiato = true;
 				immortal = false; //appena mangio torno mortale
+				coloreSerpente=coloreNormale;
 			}
 
 		var ultima = vettoreX.length - 1;
