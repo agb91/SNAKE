@@ -65,6 +65,7 @@ function disegnaLabirinto(v)
 {
 	var res = v.split("-");
 	var vgen = [];
+	var cb = false;
 
 	for (i = 0; i < res.length - 1; i++) 
 	{
@@ -85,7 +86,7 @@ function disegnaLabirinto(v)
 				{
 				//if cibovicino(x,y) then creacibo
 					if (isCibo((x+i), y))
-						creaCibo();
+						cb=true;
 					colore((x + i), y, coloreOstacolo);
 				}
 		}
@@ -95,7 +96,7 @@ function disegnaLabirinto(v)
 			for (i = 0; i < l; i++)
 				{
 					if (isCibo(x, (y+i)))
-						creaCibo();
+						cb=true;
 					colore(x, (y + i), coloreOstacolo);
 				}
 		}
@@ -104,7 +105,7 @@ function disegnaLabirinto(v)
 			for (i = 0; i < l; i++)
 				{
 					if (isCibo((x-i), y))
-						creaCibo();
+						cb=true;
 					colore((x - i), y, coloreOstacolo);
 				}
 		}
@@ -114,11 +115,12 @@ function disegnaLabirinto(v)
 				
 				{
 					if (isCibo(x, (y-i)))
-						creaCibo();
+						cb=true;
 					colore(x, (y - i), coloreOstacolo);
 				}
 		}
 	}
-
 	
+	if (cb)
+		creaCibo();
 }
