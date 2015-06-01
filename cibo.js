@@ -1,11 +1,12 @@
 function creaCibo() 
 {
+	pulisciCibo();
 	m = 0;
 	n = 0;
 	do 
 	{
 		m = Math.round(Math.random() * dimensione);
-		n = Math.round(Math.random() * dimensione);
+		n = Math.floor(Math.random() * dimensione);
 		attuale = document.getElementById(m + "-" + n).style.backgroundColor;
 	} 
 	while (attuale != coloreSfondo)
@@ -61,7 +62,7 @@ function mangiaCibo()
 			vettoreX.pop();
 			vettoreY.pop();
 			ultimo=vettoreX.length-1;
-			colore(vettoreX[ultimo], vettoreY[ultimo], coloreSfondo);
+			colore(vettoreX[ultimo], vettoreY[ultimo], coloreSerpente);
 			vettoreX.pop();
 			vettoreY.pop();
 			break;
@@ -86,3 +87,17 @@ function isCibo(m,n)
 	else 
 		return false;
 }
+
+
+function pulisciCibo()
+{
+	for (i = 0; i < dimensione; i++) 
+	{
+		for (j = 0; j < dimensione; j++) 
+		{
+			if (isCibo(i,j))
+				document.getElementById(i + "-" + j).style.backgroundColor = coloreSfondo;
+		}
+	}
+}
+
