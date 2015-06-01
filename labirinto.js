@@ -47,7 +47,7 @@ function creaOstacolo(liv)
 	xhr.send(null);
 }
 
-
+//cancella il labirinto precedente
 function pulisci() 
 {
 	for (i = 0; i < dimensione; i++) 
