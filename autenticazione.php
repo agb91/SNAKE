@@ -1,10 +1,10 @@
 <?php 
 require_once 'talkToData.php';
+
 	session_start();	
 	if (count($_POST)==2) //chiamato da login
 	{
 		if (talkToData::verificaUtente($_POST["username"], $_POST["password"])) 
-		//if ($nomeUtente==$_POST["username"] && $passwordUtente==$_POST["password"])
 		{
 			// in questo caso, l'utente ha effettuato il login correttamente
 			$_SESSION["login"] = $_POST["username"];
@@ -23,13 +23,13 @@ require_once 'talkToData.php';
 			}
 			else 
 			{
-				if (talkToData::inserisciUtente($_POST["username"], $_POST["password"])) //la registrazione � andata a buon fine
-				//if ($nomeUtente!=$_POST["username"])
+				if (talkToData::inserisciUtente($_POST["username"], $_POST["password"])) 
 				{
+					//la registrazione è andata a buon fine
 					$_SESSION["login"] = $_POST["username"];
 					header("location: index.php");
 				}
-				else //nome utente gi� presente
+				else //nome utente già presente
 				{
 					header("location: registrazione.php?errore=1");
 				}
