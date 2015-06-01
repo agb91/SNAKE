@@ -5,7 +5,7 @@ function creaCibo()
 	n = 0;
 	do 
 	{
-		m = Math.round(Math.random() * dimensione);
+		m = Math.floor(Math.random() * dimensione);
 		n = Math.floor(Math.random() * dimensione);
 		attuale = document.getElementById(m + "-" + n).style.backgroundColor;
 	} 
