@@ -1,3 +1,4 @@
+//cancella il cibo precedente e ne crea uno nuovo in posizione random (non su ostacoli o serpente) e lo colora
 function creaCibo() 
 {
 	pulisciCibo();
@@ -17,6 +18,8 @@ function creaCibo()
 }
 
 
+//in modo random decide se il cibo è normale o bonus: in questo caso decide quale tipo di bonus in modo equiprobabile
+//la funzione ritorna il colore del cibo che viene scelto
 function scegliCibo()
 {
 	t=Math.random();
@@ -38,6 +41,7 @@ function scegliCibo()
 }
 
 
+//quando il serpente mangia il cibo, verifica di che tipo è in base al colore e fa l'azione relativa a quel tipo di cibo
 function mangiaCibo()
 {
 	tipo=document.getElementById(cibo[0]+"-"+cibo[1]).style.backgroundColor;
@@ -55,7 +59,7 @@ function mangiaCibo()
 			document.getElementById("punteggio").firstChild.nodeValue = punteggio;
 			break;
 		}
-	case coloreCiboBonus2: //serpente non aumenta di lunghezza e si accorcia di 1
+	case coloreCiboBonus2: //serpente non aumenta di lunghezza e si accorcia di 2
 		{
 			punteggio = punteggio + incrementoPunteggio;
 			document.getElementById("punteggio").firstChild.nodeValue = punteggio;
@@ -83,6 +87,7 @@ function mangiaCibo()
 }
 
 
+//verifica se in (m,n) c'è del cibo in base al colore: true se c'è; false se non c'è
 function isCibo(m,n)
 {
 	attuale=document.getElementById(m+"-"+n).style.backgroundColor;
@@ -93,6 +98,7 @@ function isCibo(m,n)
 }
 
 
+//cancella il cibo dal campo (diventa colore sfondo)
 function pulisciCibo()
 {
 	for (i = 0; i < dimensione; i++) 
@@ -104,4 +110,3 @@ function pulisciCibo()
 		}
 	}
 }
-
