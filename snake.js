@@ -1,10 +1,12 @@
 interval = setInterval(avanza, velocita);
+//ogni volta che mangia il cibo controlla se deve aumentare di livello
+//quando aumenta di livello cambia il labirinto, aumenta la velocità e il serpente diventa immortale
 function avanzaLivello() 
 {
-	liv = (Math.floor(punteggio / puntiLivello)) + 1;
+	liv = (Math.floor(punteggio / puntiLivello)) + 1; //calcola il livello attuare in base al punteggio
 	if (liv > livello) 
 	{
-		pulisci();
+		pulisci(); //cancella il labirinto
 		livello = liv;
 		creaOstacolo(livello);
 		document.getElementById("livello").firstChild.nodeValue = livello;
