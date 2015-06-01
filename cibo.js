@@ -1,18 +1,18 @@
 function creaCibo() 
 {
-	x = 0;
-	y = 0;
+	m = 0;
+	n = 0;
 	do 
 	{
-		x = Math.round(Math.random() * dimensione);
-		y = Math.round(Math.random() * dimensione);
-		attuale = document.getElementById(x + "-" + y).style.backgroundColor;
+		m = Math.round(Math.random() * dimensione);
+		n = Math.round(Math.random() * dimensione);
+		attuale = document.getElementById(m + "-" + n).style.backgroundColor;
 	} 
 	while (attuale != coloreSfondo)
-	cibo[0] = x;
-	cibo[1] = y;
+	cibo[0] = m;
+	cibo[1] = n;
 	tipo=scegliCibo();
-	colore(x, y, tipo);
+	colore(m, n, tipo);
 }
 
 
@@ -78,9 +78,9 @@ function mangiaCibo()
 }
 
 
-function isCibo(x,y)
+function isCibo(m,n)
 {
-	attuale=document.getElementById(x+"-"+y).style.backgroundColor;
+	attuale=document.getElementById(m+"-"+n).style.backgroundColor;
 	if (attuale==coloreCibo || attuale==coloreCiboBonus1 || attuale==coloreCiboBonus2 || attuale==coloreCiboBonus3)
 		return true;
 	else 
