@@ -31,7 +31,7 @@ var quantoAvanza = 1; // di quanti quadretti per volta avanza il serpente?
 var livello = 1;
 var velocita = 300; // velocità iniziale
 var interval;
-var incrementoVelocita = 45; // è alto, ma è solo per provare
+var incrementoVelocita = 20; // è alto, ma è solo per provare
 var minimoVelocita = 30;
 var cibo = [];
 var immortal = false;
