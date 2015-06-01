@@ -13,13 +13,16 @@ var vivo = true; // sono in gioco?
 var mangiato = false; // ho mangiato?
 var punteggio = 0;
 var incrementoPunteggio = 10;
+var fattoreBonus = 3;
 var dimensione = 64;
-var puntiLivello = 10; // 30
+var puntiLivello = 40;
 var coloreSfondo = "yellow";
-var coloreSerpente = "green";
+var coloreSerpente;
+var coloreNormale = "green";
+var coloreImmortal = "orange";
 var coloreCibo = "red";
-var coloreCiboBonus1 = "gray";
-var coloreCiboBonus2 = "blue";
+var coloreCiboBonus1 = "blue";
+var coloreCiboBonus2 = "gray";
 var coloreCiboBonus3 = "orange";
 var coloreOstacolo = "black";
 var larghezzaTabella = "100";
@@ -28,11 +31,14 @@ var quantoAvanza = 1; // di quanti quadretti per volta avanza il serpente?
 var livello = 1;
 var velocita = 300; // velocità iniziale
 var interval;
-var incrementoVelocita = 60; // è alto, ma è solo per provare
+var incrementoVelocita = 45; // è alto, ma è solo per provare
 var minimoVelocita = 30;
 var cibo = [];
 var immortal = false;
-var soglia = 0.7;
+var soglia = 0.6;
+
+
+coloreSerpente=coloreNormale;
 
 // inizializzo il serpente di partenza
 vettoreX[0] = testaX;
