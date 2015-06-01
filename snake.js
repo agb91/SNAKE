@@ -1,12 +1,10 @@
 interval = setInterval(avanza, velocita);
-//ogni volta che mangia il cibo controlla se deve aumentare di livello
-//quando aumenta di livello cambia il labirinto, aumenta la velocità e il serpente diventa immortale
 function avanzaLivello() 
 {
-	liv = (Math.floor(punteggio / puntiLivello)) + 1; //calcola il livello attuare in base al punteggio
+	liv = (Math.floor(punteggio / puntiLivello)) + 1;
 	if (liv > livello) 
 	{
-		pulisci(); //cancella il labirinto
+		pulisci();
 		livello = liv;
 		creaOstacolo(livello);
 		document.getElementById("livello").firstChild.nodeValue = livello;
@@ -16,8 +14,6 @@ function avanzaLivello()
 		else
 			velocita = minimoVelocita;
 		interval = setInterval(avanza, velocita); // start the setInterval()
-		immortal=true;
-		coloreSerpente=coloreImmortal;
 	}
 }
 
@@ -75,6 +71,7 @@ window.addEventListener("keyup", key, false);
 
 
 function colore(x, y, color) // coloro del colore detto la cella detta, il conto delle celle parte da 0 non da 1
+// e arriva a 63. controlla se è possibile disegnare...
 {
 	if (x < 64 && y < 64 && x >= 0 && x >= 0)
 		document.getElementById(x + "-" + y).style.backgroundColor = color;
@@ -101,7 +98,7 @@ function verifica(tx, ty) // falso se vita vero se morte verifica se la nuova po
 }
 
 
-function morte() 
+function morte() //passa a classifica.php
 {
 	window.location.href = 'classifica.php?utente='
 			+ document.getElementById("nomeUtente").firstChild.nodeValue + "&punteggio=" + punteggio;
