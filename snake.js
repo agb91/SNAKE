@@ -14,6 +14,8 @@ function avanzaLivello()
 		else
 			velocita = minimoVelocita;
 		interval = setInterval(avanza, velocita); // start the setInterval()
+		immortal=true;
+		coloreSerpente=coloreImmortal;
 	}
 }
 
