@@ -57,7 +57,9 @@ require_once ("controllo.php");
           	$n=1;
           	for ($i=0; $i<$numPunt; $i++)
           	{
-          		echo '<tr><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
+          		if ($classifica[$i][0]==$_SESSION["login"])
+          			echo '<tr style="background-color:yellow"><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
+          		else echo '<tr><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
           		$n++;
           	}
           	echo "</table><br><br>";
