@@ -50,22 +50,27 @@ function mangiaCibo()
 		}
 	case coloreCiboBonus1: //bonus punti
 		{
-			punteggio = punteggio + incrementoPunteggio*3;
+			punteggio = punteggio + incrementoPunteggio*fattoreBonus;
 			document.getElementById("punteggio").firstChild.nodeValue = punteggio;
 			break;
 		}
-	case coloreCiboBonus2: //serpente non aumenta di lunghezza
+	case coloreCiboBonus2: //serpente non aumenta di lunghezza e si accorcia di 1
 		{
 			punteggio = punteggio + incrementoPunteggio;
 			document.getElementById("punteggio").firstChild.nodeValue = punteggio;
+			vettoreX.pop();
+			vettoreY.pop();
+			ultimo=vettoreX.length-1;
+			colore(vettoreX[ultimo], vettoreY[ultimo], coloreSerpente);
 			vettoreX.pop();
 			vettoreY.pop();
 			break;
 		}
 	case coloreCiboBonus3: //immortalità finchè non mangio altro
 		{
-			punteggio = punteggio + incrementoPunteggio*10;
+			punteggio = punteggio + incrementoPunteggio;
 			document.getElementById("punteggio").firstChild.nodeValue = punteggio;
+			coloreSerpente=coloreImmortal;
 			immortal=true;
 			break;
 		}
@@ -81,4 +86,3 @@ function isCibo(x,y)
 	else 
 		return false;
 }
-
