@@ -32,7 +32,7 @@ require_once ("controllo.php");
             $numPunt=count($classifica);
             echo "Ecco la classifica dei tuoi ".$numPunt." punteggi migliori:<br>";
             
-            echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="120">';
+            echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="140">';
             echo '<thead><td></td><td>Punteggio</td></thead>';
             $n=1;
             for ($i=0; $i<$numPunt; $i++)
@@ -52,11 +52,12 @@ require_once ("controllo.php");
           	$numPunt=count($classifica);
           	echo "Ecco la classifica dei ".$numPunt." punteggi migliori:<br>";
           	
-          	echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="100"><col width="120">';
+          	echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="140"><col width="120">';
           	echo '<thead><td></td><td>Nome</td><td>Punteggio</td></thead>';
           	$n=1;
           	for ($i=0; $i<$numPunt; $i++)
           	{
+          		//se il record è mio lo evidenzio in giallo
           		if ($classifica[$i][0]==$_SESSION["login"])
           			echo '<tr style="background-color:yellow"><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
           		else echo '<tr><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
