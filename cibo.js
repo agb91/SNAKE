@@ -61,7 +61,7 @@ function mangiaCibo()
 			vettoreX.pop();
 			vettoreY.pop();
 			ultimo=vettoreX.length-1;
-			colore(vettoreX[ultimo], vettoreY[ultimo], coloreSerpente);
+			colore(vettoreX[ultimo], vettoreY[ultimo], coloreSfondo);
 			vettoreX.pop();
 			vettoreY.pop();
 			break;
