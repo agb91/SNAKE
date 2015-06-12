@@ -3,7 +3,7 @@ class talkToData {
 	private static $nomeHost   = "localhost";
    	private static $nomeUtente = "root";        // per progetti non didattici, mai
    	private static $password   = "";            // accedere come root senza password
-   	private static $nomeDb     = "CLASSIFICA1";       //NOME DEL DB
+   	private static $nomeDb     = "SNAKE";       //NOME DEL DB
 	 
         
         public static function connetti() //PROCEDURA STANDARD DI CONNESSIONE A DATABASE
@@ -17,22 +17,27 @@ class talkToData {
             throw new Exception("Impossibile connettersi alla classifica: ");
             return $connessione;
         }
-        
-         public static function ostacolo($liv)
-        { 
-            talkToData::connetti();
-            $tabella = "LABIRINTI".$liv;
-            $query1= sprintf("SELECT * FROM ".$tabella);  
-            $risultato = mysql_query($query1);
-            $ri = "";
-            while ($riga = mysql_fetch_array($risultato)) 
-            {
-                $ri = $ri."".$riga["XINIZIO"]." ". $riga["YINIZIO"]." ".$riga["DIREZIONE"]." ".$riga["LUNGHEZZA"]."-";
-            }
-            @mysql_close($connessione);
-            return $ri;
-        }
 
+        
+        public static function ostacolo($liv) // sapendo il livello, devo cercare nel DB gli ostacoli competenti
+                //per restituirli tramite ajax al client
+                //LE INFO SONO XINIZIO, Y INIZIO, DIREZIONE (1,2,3,4) E LUNGHEZZA DI OGNI LINEA DEL LABIRINTO
+        {
+        	$connessione=talkToData::connetti();
+        	$tabella = "LABIRINTI".$liv;
+        	$query1= sprintf("SELECT * FROM ".$tabella); //query composta dinamicamente rispetto al livello
+        	$risultato = mysql_query($query1);
+        	$ri = "";
+        	while ($riga = mysql_fetch_array($risultato))
+        	{
+        		$ri = $ri."".$riga["XINIZIO"]." ". $riga["YINIZIO"]." ".$riga["DIREZIONE"]." ".$riga["LUNGHEZZA"]."-";
+        	}//LA QUERY RENDE UNA MATRICE, IO LA TRASFORMO IN UNA STRING DOVE LE COLONNE DELLA MATRIC SONO DIVISE DALLO SPAZIO
+                // E LE RIGHE DAL TRATTINO
+        	@mysql_close($connessione);
+        	return $ri;
+        }
+        
+        
         public static function verificaUtente($nome, $pw)
         {
          //CONNESSIONE E GESTINE ERRORI DI CONNESSIONE:
@@ -100,7 +105,7 @@ class talkToData {
 	public static function salvaRecord($nome, $punteggio) 
 	{ 
 		$connessione = talkToData::connetti();
-		$query = sprintf("SELECT * FROM CLASSIFICA WHERE NOME=%s ORDER BY PUNTEGGIO ASC LIMIT 5", talkToData::filtraCodiceSQL($nome));
+		$query = sprintf("SELECT * FROM CLASSIFICA WHERE NOME=%s LIMIT 5", talkToData::filtraCodiceSQL($nome));
 		$risultato = mysql_query($query);
 		$i=0;
 		while ($riga = mysql_fetch_array($risultato))
