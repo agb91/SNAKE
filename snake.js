@@ -6,6 +6,8 @@ function avanzaLivello()
 	{
 		pulisci();
 		livello = liv;
+		immortal=true;
+		coloreSerpente=coloreImmortal;
 		creaOstacolo(livello);
 		document.getElementById("livello").firstChild.nodeValue = livello;
 		clearInterval(interval); // stop setInterval()
