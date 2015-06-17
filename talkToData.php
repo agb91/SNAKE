@@ -107,12 +107,7 @@ class talkToData {
 		$connessione = talkToData::connetti();
 		$query = sprintf("SELECT * FROM CLASSIFICA WHERE NOME=%s LIMIT 5", talkToData::filtraCodiceSQL($nome));
 		$risultato = mysql_query($query);
-		$i=0;
-		while ($riga = mysql_fetch_array($risultato))
-		{
-			$i++;
-		}
-		if ($i<5) //se l'utente ha meno di 5 record
+		if (mysql_num_rows($risultato)<5) //se l'utente ha meno di 5 record
 		{
 			$query= sprintf("INSERT INTO CLASSIFICA (NOME, PUNTEGGIO) VALUES (%s, %s)", talkToData::filtraCodiceSQL($nome), $punteggio); 			
         	mysql_query($query);
