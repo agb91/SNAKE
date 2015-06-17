@@ -8,7 +8,7 @@ require_once ("controllo.php");
         
     </head>
     <body onload = "avanza();">
-        <h2 style="color:aqua">Welcome <span id="nomeUtente"><?php echo $_SESSION["login"]?></span></h2>
+        <h2 style="color:blue">Welcome <span id="nomeUtente"><?php echo $_SESSION["login"]?></span></h2>
         <p><a href="index.php">Home</a></p>
         <div style="float:left">
 	        <table style="width:500px" style="height:300px">
