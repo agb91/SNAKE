@@ -13,8 +13,8 @@
     <p><a href="index.php">Home</a></p>
 	    <form method="post" action="autenticazione.php">
 	    	<table>
-	    	<tr><td>Username:</td><td><input type="text" name="username" size="12"/></td></tr>
-	    	<tr><td>Password:</td><td><input type="password" name="password" size="12"/></td></tr>
+	    	<tr><td>Username:</td><td><input type="text" name="username" size="12" maxlength="12"/></td></tr>
+	    	<tr><td>Password:</td><td><input type="password" name="password" size="12" maxlength="12"/></td></tr>
 	    	</table>
 	    	<input type="submit" value="Accedi"/>
 	    </form>
