@@ -4,11 +4,14 @@ function avanzaLivello()
 	liv = (Math.floor(punteggio / puntiLivello)) + 1;
 	if (liv > livello) 
 	{
-		pulisci();
 		livello = liv;
-		immortal=true;
-		coloreSerpente=coloreImmortal;
-		creaOstacolo(livello);
+		if (livello<=10) //sopra i livello massimo 
+		{
+			pulisci();
+			immortal=true;
+			coloreSerpente=coloreImmortal;
+			creaOstacolo(livello);
+		}
 		document.getElementById("livello").firstChild.nodeValue = livello;
 		clearInterval(interval); // stop setInterval()
 		if ((velocita - incrementoVelocita) >= minimoVelocita)
