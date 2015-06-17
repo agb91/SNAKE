@@ -10,3 +10,5 @@ L'utente non può modificare l'attributo get delle pagine delle classifiche perc
 
 Se l'utente prova ad accedere alle pagine del gioco senza essere loggato viene rispedito al login
 
+Se il giocatore ha ottenuto un punteggio basso (fuori dalla top 5 personale) gli diamo la possibilità di sfogarsi facendo apparire nelle classifiche (in basso) un bottone con disegnato un martello: se l'utente lo clicca una volta potrà trascinarlo col mouse, e appena esso colpisce le lettere nella tabella classifica le sposta distruggendo il testo
+
