@@ -115,6 +115,7 @@ function pulisciCibo()
 //riempio la legenda dei colori
 leg=document.getElementById("legenda");
 riga=document.createElement("tr");
+riga.style.color=coloreCibo;
 cella1=document.createElement("td");
 cella1.appendChild(document.createTextNode(coloreCibo));
 cella2=document.createElement("td");
@@ -124,6 +125,7 @@ riga.appendChild(cella2);
 leg.appendChild(riga);
 
 riga=document.createElement("tr");
+riga.style.color=coloreCiboBonus1;
 cella1=document.createElement("td");
 cella1.appendChild(document.createTextNode(coloreCiboBonus1));
 cella2=document.createElement("td");
@@ -133,6 +135,7 @@ riga.appendChild(cella2);
 leg.appendChild(riga);
 
 riga=document.createElement("tr");
+riga.style.color=coloreCiboBonus2;
 cella1=document.createElement("td");
 cella1.appendChild(document.createTextNode(coloreCiboBonus2));
 cella2=document.createElement("td");
@@ -142,6 +145,7 @@ riga.appendChild(cella2);
 leg.appendChild(riga);
 
 riga=document.createElement("tr");
+riga.style.color=coloreCiboBonus3;
 cella1=document.createElement("td");
 cella1.appendChild(document.createTextNode(coloreCiboBonus3));
 cella2=document.createElement("td");
