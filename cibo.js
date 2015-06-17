@@ -110,3 +110,42 @@ function pulisciCibo()
 		}
 	}
 }
+
+
+//riempio la legenda dei colori
+leg=document.getElementById("legenda");
+riga=document.createElement("tr");
+cella1=document.createElement("td");
+cella1.appendChild(document.createTextNode(coloreCibo));
+cella2=document.createElement("td");
+cella2.appendChild(document.createTextNode("cibo normale"));
+riga.appendChild(cella1);
+riga.appendChild(cella2);
+leg.appendChild(riga);
+
+riga=document.createElement("tr");
+cella1=document.createElement("td");
+cella1.appendChild(document.createTextNode(coloreCiboBonus1));
+cella2=document.createElement("td");
+cella2.appendChild(document.createTextNode("bonus punti"));
+riga.appendChild(cella1);
+riga.appendChild(cella2);
+leg.appendChild(riga);
+
+riga=document.createElement("tr");
+cella1=document.createElement("td");
+cella1.appendChild(document.createTextNode(coloreCiboBonus2));
+cella2=document.createElement("td");
+cella2.appendChild(document.createTextNode("diminuisce lunghezza"));
+riga.appendChild(cella1);
+riga.appendChild(cella2);
+leg.appendChild(riga);
+
+riga=document.createElement("tr");
+cella1=document.createElement("td");
+cella1.appendChild(document.createTextNode(coloreCiboBonus3));
+cella2=document.createElement("td");
+cella2.appendChild(document.createTextNode("serpente immortale"));
+riga.appendChild(cella1);
+riga.appendChild(cella2);
+leg.appendChild(riga);
