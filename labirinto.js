@@ -30,7 +30,7 @@ function tornaLabirinto() //CHIAMANDO QUESTA FUNZIONE, CHE SI ATTIVA SSE IL SERV
 // DISEGNA IL LABIRINTO BASANDOSI SULLE INFO OTTENUTE. FA PARTE DI AJAX
 // LE DIREZIONI SONO: 1 SE ORIZZONTALE DX E POI VIA IN SENSO ORARIO
 {
-	if (xhr.readyState == 4) 
+	if (xhr.readyState==4 && xhr.status==200) 
 	{
 		var vost = xhr.responseText;
 		disegnaLabirinto(vost);
