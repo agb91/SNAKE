@@ -1,4 +1,3 @@
-
 function converti(ele,q)
 {
 	pT=5;
@@ -24,15 +23,14 @@ function muovi(imm)
 {
 	if (move){
 		move=false;
-		$(imm).unbind("mousemove");
+		$(window).unbind("mousemove");
 	}
 	else {
 		move=true;
-		$(imm).css("z-index", 5);
 		$("tbody tr td:first-child").each(function(){converti(this,true);});
 		$("tbody tr td:not(:first-child)").each(function(){converti(this,false);});
 		$("tbody td").text('');
-		$(imm).mousemove(function(e){$(this).offset({top:e.clientY-40,left:e.clientX-40});
+		$(window).mousemove(function(e){$("img").offset({top:e.clientY-40,left:e.clientX-40});
 		$("div#lsd").each(function(){lsd(this,e)});
 		});
 	}
@@ -67,4 +65,3 @@ function lsd(ele,p)
       }
     }
 }
-
