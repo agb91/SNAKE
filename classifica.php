@@ -28,12 +28,13 @@ require_once ("controllo.php");
             }
             else 
             {
-	            echo "Salve ".$_SESSION["login"]."<br>";
+	            $inserito=true;
+            	echo "Salve ".$_SESSION["login"]."<br>";
 	            if (count($_GET)==2 && $_SESSION["giocato"]) //chiamato da snake.php
 	            {
 	            	$punteggio = $_GET["punteggio"];
 	            	echo "Il tuo punteggio attuale &egrave;: ".$punteggio."<br><br>" ;
-	            	talkToData::salvaRecord($utente,$punteggio);
+	            	$inserito=talkToData::salvaRecord($utente,$punteggio);
 	            	$_SESSION["giocato"]=false;
 	            }
 	            $classifica=talkToData::leggiRecordPersonale($utente);
@@ -42,11 +43,11 @@ require_once ("controllo.php");
 	            {
 		            echo "Ecco la classifica dei tuoi ".$numPunt." punteggi migliori:<br>";
 		            echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="140">';
-		            echo '<thead><td></td><td>Punteggio</td></thead>';
+		            echo '<thead><td width="40"></td><td width="140">Punteggio</td></thead>';
 		            $n=1;
 		            for ($i=0; $i<$numPunt; $i++)
 		            {
-		            	echo '<tr><td >'.$n.'</td><td>'.$classifica[$i].'</td></tr>';
+		            	echo '<tr height=35><td>'.$n.'</td><td>'.$classifica[$i].'</td></tr>';
 		            	$n++;
 		            }
 		            echo "</table><br><br>";
@@ -54,8 +55,12 @@ require_once ("controllo.php");
 	            else 
 	            	echo "Non ci sono record<br><br>";
 	            
+	            if (!$inserito)
+	            	echo '<img src="distruggi.jpg" width="80px" height="80px"><br>';
+	            
 	            if (count($_GET)==2) //chiamato da snake.php
 	            	echo '<a href="snake.php">Gioca di nuovo</a> ';
+	            
             }
             echo '<a href="classifica.php">Classifica globale</a> ';
           }
@@ -63,27 +68,34 @@ require_once ("controllo.php");
           {
          	$classifica=talkToData::leggiRecordGenerale();
           	$numPunt=count($classifica);
-          	echo "<br>";
           	echo "Ecco la classifica dei ".$numPunt." punteggi migliori:<br>";
-          	
-          	echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="140"><col width="120">';
-          	echo '<thead><td></td><td>Nome</td><td>Punteggio</td></thead>';
+          	$inserito=false;
+          	echo '<table border="1" cellpadding="2" cellspacing="0" style="text-align:right"><col width="40"><col width="140"><col width="140">';
+          	echo '<thead><td width="40"></td><td width="140">Nome</td><td width="140">Punteggio</td></thead>';
           	$n=1;
           	for ($i=0; $i<$numPunt; $i++)
           	{
           		//se il record Ã¨ mio lo evidenzio in giallo
           		if ($classifica[$i][0]==$_SESSION["login"])
-          			echo '<tr style="background-color:yellow"><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
-          		else echo '<tr><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
+          		{
+          			$inserito=true;
+          			echo '<tr style="background-color:yellow" height=35><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
+          		}
+          		else echo '<tr height=35><td >'.$n.'</td><td>'.$classifica[$i][0].'</td><td>'.$classifica[$i][1].'</td></tr>';
           		$n++;
           	}
+          	
           	echo "</table><br><br>";
+          	if (!$inserito)
+          		echo '<img src="distruggi.jpg" width="80px" height="80px"><br>';
+          	
           	echo '<a href="classifica.php?utente='.$_SESSION["login"].'">Classifica personale</a> ';
           }
           echo '<a href="index.php">Home</a>';
         ?>
      </fieldset>
     </div>
-
+	<script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="posizionamento.js"></script>
   </body>
 </html>
