@@ -2,7 +2,7 @@ conv=true;
 
 function converti(el,q)
 {
-	cella=$("<div id='lsd'>"+$(ele).text()+"</div>");
+	cella=$("<div id='lsd'>"+$(el).text()+"</div>");
 	pT=5;
 	pL=q-(el.offsetLeft - el.scrollLeft);
 	
@@ -11,7 +11,7 @@ function converti(el,q)
 		pL += (el.offsetLeft - el.scrollLeft);
         pT += (el.offsetTop - el.scrollTop);
         el = el.offsetParent;
-    }
+    } 
 	cella.css("position", "absolute");
 	$("body").append(cella);
 	pL -= cella.width();
@@ -38,16 +38,20 @@ function muovi(imm)
 			$("tbody tr td:not(:first-child):nth-child(odd)").each(function(){converti(this,336);});
 			$("tbody td").text('');
 		}
-		$(window).mousemove(function(e){$("img").offset({top:e.clientY-40,left:e.clientX-40});
-		$("div#lsd").each(function(){lsd(this,e)});});
+		
+		$(window).mousemove(function(e){
+			t=e.clientY-40+document.body.scrollTop;
+			l=e.clientX-40+document.body.scrollLeft;
+			$("img").offset({top:t,left:l});
+			$("div#lsd").each(function(){lsd(this,e)});});
 	}
 }
 
 function lsd(ele,p)
 {
 	pEle= $(ele).position();
-    diffL=p.clientX-pEle.left;
-    diffT=p.clientY-pEle.top;
+    diffL=p.clientX-pEle.left+document.body.scrollLeft;
+    diffT=p.clientY-pEle.top+document.body.scrollTop;
     if(diffL<50 && diffL>-50 && diffT<50 && diffT>-50)
     {
       if(diffL>0 && diffT>0)
