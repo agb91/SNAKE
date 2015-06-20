@@ -1,8 +1,8 @@
 conv=true;
 
-function converti(ele,q)
+function converti(el,q)
 {
-	el=ele;
+	cella=$("<div id='lsd'>"+$(ele).text()+"</div>");
 	pT=5;
 	pL=q-(el.offsetLeft - el.scrollLeft);
 	
@@ -11,8 +11,7 @@ function converti(ele,q)
 		pL += (el.offsetLeft - el.scrollLeft);
         pT += (el.offsetTop - el.scrollTop);
         el = el.offsetParent;
-    } 
-	cella=$("<div id='lsd'>"+$(ele).text()+"</div>");
+    }
 	cella.css("position", "absolute");
 	$("body").append(cella);
 	pL -= cella.width();
