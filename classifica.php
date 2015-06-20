@@ -56,7 +56,7 @@ require_once ("controllo.php");
 	            	echo "Non ci sono record<br><br>";
 	            
 	            if (!$inserito)
-	            	echo '<img src="distruggi.jpg" width="80px" height="80px"><br>';
+	            	echo '<img src="martello.jpg" height="80px"><br>';
 	            
 	            if (count($_GET)==2) //chiamato da snake.php
 	            	echo '<a href="snake.php">Gioca di nuovo</a> ';
@@ -87,7 +87,7 @@ require_once ("controllo.php");
           	
           	echo "</table><br><br>";
           	if (!$inserito)
-          		echo '<img src="distruggi.jpg" width="80px" height="80px"><br>';
+          		echo '<img src="martello.jpg" height="80px"><br>';
           	
           	echo '<a href="classifica.php?utente='.$_SESSION["login"].'">Classifica personale</a> ';
           }
