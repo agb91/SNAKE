@@ -20,7 +20,7 @@ function converti(ele,q)
 }
 
 
-$("img").css("z-index", 100);
+$("img").css("z-index", 0);
 $("img").click(function(){muovi(this);});
 move=false;
 function muovi(imm)
@@ -53,22 +53,22 @@ function lsd(ele,p)
     {
       if(diffL>0 && diffT>0)
       {
-        $(ele).animate({marginLeft: "-="+ diffL+"px", marginTop: "-="+diffT+"px"});
+        $(ele).animate({left: "-="+ diffL+"px", top: "-="+diffT+"px"});
         $(ele).css('background', 'red');
       }
       if(diffL<0 && diffT>0)
       {
-          $(ele).animate({marginLeft: "+="+(-diffL)+"px", marginTop: "-="+diffT+"px"});
+          $(ele).animate({left: "+="+(-diffL)+"px", top: "-="+diffT+"px"});
           $(ele).css('background', 'yellow');
       }
       if(diffL<0 && diffT<0)
       {
-         $(ele).animate({marginLeft: "+="+(-diffL)+"px", marginTop: "+="+(-diffT)+"px"});
+         $(ele).animate({left: "+="+(-diffL)+"px", top: "+="+(-diffT)+"px"});
          $(ele).css('background', 'green');
       }
       if(diffL>0 && diffT<0)
       {
-          $(ele).animate({marginLeft: "-="+diffL+"px", marginTop: "+="+(-diffT)+"px"});
+          $(ele).animate({left: "-="+diffL+"px", top: "+="+(-diffT)+"px"});
           $(ele).css('background', 'blue');
       }
     }
