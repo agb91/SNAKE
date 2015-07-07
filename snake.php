@@ -21,7 +21,7 @@ require_once ("controllo.php");
 		        </tr>
 	        </table>
         </div>
-        <div style="margin-left:600px">
+        <div style="float:left">
         	<table id="legenda" border="1" cellpadding="2" cellspacing="0">
         		<tr colspan="2">Legenda colori</tr>
         	</table>    
@@ -30,6 +30,5 @@ require_once ("controllo.php");
 		<script type="text/javascript" src="cibo.js"></script>
 		<script type="text/javascript" src="labirinto.js"></script>
 		<script type="text/javascript" src="snake.js"></script> 
-		<?php $_SESSION["giocato"]=true ?>
     </body>
 </html>
