@@ -21,7 +21,7 @@ function converti(el,q)
 }
 
 
-$("img").css("z-index", 0); //immagine in primo piano
+$("img").css("z-index", 0);
 $("img").click(function(){muovi(this);});
 move=false;
 
