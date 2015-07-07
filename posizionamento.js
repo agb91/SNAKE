@@ -1,9 +1,11 @@
+//per convertire gli elementi solo la prima volta
 conv=true;
 
+//crea gli elementi jquery a partire dalle celle della tabella tenendo conto della posizione e dello scroll della pagina
 function converti(el,q)
 {
 	cella=$("<div id='lsd'>"+$(el).text()+"</div>");
-	pT=5;
+	pT=5 + document.body.scrollTop;
 	pL=q-(el.offsetLeft - el.scrollLeft);
 	
 	while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) )  
@@ -19,9 +21,11 @@ function converti(el,q)
 }
 
 
-$("img").css("z-index", 0);
+$("img").css("z-index", 0); //immagine in primo piano
 $("img").click(function(){muovi(this);});
 move=false;
+
+//funzione che gestisce il movimento dell'immagine
 function muovi(imm)
 {
 	if (move){
@@ -33,10 +37,10 @@ function muovi(imm)
 		if (conv)
 		{
 			conv=false;
-			$("tbody tr td:first-child").each(function(){converti(this,44);});
-			$("tbody tr td:not(:first-child):nth-child(even)").each(function(){converti(this,190);});
-			$("tbody tr td:not(:first-child):nth-child(odd)").each(function(){converti(this,336);});
-			$("tbody td").text('');
+			$("tbody tr td:first-child").each(function(){converti(this,44);}); //seleziona la prima colonna della tabella
+			$("tbody tr td:not(:first-child):nth-child(even)").each(function(){converti(this,190);}); //seleziona la seconda colonna della tabella
+			$("tbody tr td:not(:first-child):nth-child(odd)").each(function(){converti(this,336);}); //seleziona la terza colonna della tabella (quando c'è)
+			$("tbody td").text(''); //svuota tutta la tabella 
 		}
 		
 		$(window).mousemove(function(e){
@@ -47,6 +51,7 @@ function muovi(imm)
 	}
 }
 
+//genera l'effetto psichedelico di movimento e colore
 function lsd(ele,p)
 {
 	pEle= $(ele).position();
@@ -76,3 +81,4 @@ function lsd(ele,p)
       }
     }
 }
+
