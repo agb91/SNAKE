@@ -30,5 +30,6 @@ require_once ("controllo.php");
 		<script type="text/javascript" src="cibo.js"></script>
 		<script type="text/javascript" src="labirinto.js"></script>
 		<script type="text/javascript" src="snake.js"></script> 
+		<?php $_SESSION["giocato"]=true; ?>
     </body>
 </html>
