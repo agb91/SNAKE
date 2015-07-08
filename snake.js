@@ -105,7 +105,7 @@ function verifica(tx, ty) // falso se vita vero se morte verifica se la nuova po
 
 function morte() //passa a classifica.php
 {
-	window.location.href = 'giocato.php?utente='
+	window.location.href = 'classifica.php?utente='
 			+ document.getElementById("nomeUtente").firstChild.nodeValue + "&punteggio=" + punteggio;
 }
 
